@@ -137,15 +137,18 @@ function serie(){const box=document.getElementById("c-serie");box.innerHTML="";c
  const s=el("svg",{viewBox:`0 0 ${W} ${H}`,height:H},box),m={l:40,r:92,t:14,b:34};
  // axis ends a few days after the latest poll (or tomorrow) and grows to 25/10 as polls come in
  const lastPoll=Math.max(...R.pesquisas.map(p=>day(p.meio_exato))),tomorrow=Math.floor(Date.now()/864e5)+1.5;
- const d0=day(R.inicio)-0.5,d1=Math.min(day(R.fim),Math.max(lastPoll+3,tomorrow));
+ const firstPoll=Math.min(...R.pesquisas.map(p=>day(p.meio_exato)),...R.serie.map(d=>day(d.data)));
+ const d0=firstPoll-0.35,d1=Math.min(day(R.fim),Math.max(lastPoll+3,tomorrow));
  const ys=[...R.pesquisas.flatMap(p=>[p.valido_pub,p.ajustado,100-p.valido_pub,100-p.ajustado]),...R.serie.flatMap(d=>[d.lo,d.hi,100-d.lo,100-d.hi])];
  let lo=Math.floor(Math.min(...ys)-1),hi=Math.ceil(Math.max(...ys)+1);
  const x=v=>m.l+(v-d0)/(d1-d0)*(W-m.l-m.r),y=v=>m.t+(hi-v)/(hi-lo)*(H-m.t-m.b);
  for(let v=lo;v<=hi;v++){if(v%2)continue;el("line",{x1:m.l,x2:W-m.r,y1:y(v),y2:y(v),stroke:css("--grid")},s);txt(s,m.l-8,y(v)+4,v+"%",{"text-anchor":"end"})}
  el("line",{x1:m.l,x2:W-m.r,y1:y(50),y2:y(50),stroke:css("--fg-2"),"stroke-width":1},s);
  const span=d1-d0,step=span>12?5:span>7?2:1;
- for(let k=Math.ceil(d0-0.5);k<=d1;k+=step){const dd=new Date((k+0.5)*864e5).toISOString().slice(0,10);
-  if(day(dd)<d0||day(dd)>d1)continue;txt(s,x(day(dd)),H-m.b+18,dm(dd),{"text-anchor":"middle",class:"m"})}
+ // one tick per day at 00h, so a poll centered on 06/10 12h sits halfway between the 06/10 and 07/10 ticks
+ for(let k=Math.ceil(d0);k<=d1;k+=step){const dd=new Date(k*864e5).toISOString().slice(0,10);
+  el("line",{x1:x(k),x2:x(k),y1:H-m.b,y2:H-m.b+5,stroke:css("--rule")},s);
+  txt(s,x(k),H-m.b+18,dm(dd),{"text-anchor":"middle",class:"m"})}
  if(d1>=day(R.fim)){el("line",{x1:x(d1),x2:x(d1),y1:m.t,y2:H-m.b,stroke:css("--rule"),"stroke-dasharray":"3 3"},s);
   txt(s,x(d1)-4,m.t+10,"2º turno",{"text-anchor":"end",class:"m"})}
  const cand=[["--flavio",v=>v,"Flávio"],["--lula",v=>100-v,"Lula"]];
