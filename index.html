@@ -27,6 +27,7 @@ h1{font:600 40px/1.1 var(--serif);margin:6px 0 10px}
 .cards{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:36px 0 0}
 .card{display:flex;flex-direction:column;gap:8px;text-decoration:none;background:var(--bg2);border-radius:12px;padding:20px 22px;border:1px solid transparent}
 .card:hover{border-color:var(--rule)}
+.card.wide{grid-column:1/-1}
 .card .t{font:600 12px/1.4 var(--sans);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
 .card h2{font:600 24px/1.2 var(--serif);margin:0}
 .card p{font:15px/1.55 var(--sans);color:var(--fg2);margin:0}
@@ -38,7 +39,7 @@ footer{max-width:980px;margin:0 auto;padding:16px 16px 40px;border-top:1px solid
 </style></head><body><main>
 <div class="kicker">Eleição presidencial</div>
 <h1>Eleições 2026</h1>
-<p class="dek">Um painel que estima o resultado final durante a apuração do TSE, e uma nota sobre quantas vezes o 2º turno inverteu o 1º.</p>
+<p class="dek">Um agregador das pesquisas do 2º turno, um painel que estima o resultado final durante a apuração do TSE e uma nota sobre quantas vezes o 2º turno inverteu o 1º.</p>
 <p class="autor"><b>Luís Meloni</b>, professor associado de economia da FEA-USP</p>
 
 <div class="placar" aria-label="Resultado do 1º turno">
@@ -48,6 +49,9 @@ footer{max-width:980px;margin:0 auto;padding:16px 16px 40px;border-top:1px solid
 </div>
 
 <div class="cards">
+ <a class="card wide" href="agregador.html"><div class="t">Agregador de pesquisas</div><h2>Flávio 51,7% · Lula 48,3%</h2>
+  <p>Média de 4 pesquisas nacionais de 2º turno divulgadas desde o 1º turno, em votos válidos (07/10). O número de cada instituto é ajustado pelo quanto ele errou na véspera do 1º turno.</p>
+  <span class="ir">Abrir o agregador →</span></a>
  <a class="card" href="painel.html"><div class="t">Painel da apuração</div><h2>Apuração projetada</h2>
   <p>O TSE divulga primeiro as seções do Sul e do Sudeste. O painel estima o resultado final levando essa ordem em conta.</p>
   <p>No 1º turno, a estimativa ficou a menos de 1 ponto do resultado final desde as <b>17h29, com 2,2% apurado</b>. O parcial do TSE só chegou lá às 20h38, com 92,3%. Entre 2% e 99% apurado, o erro médio foi de 0,20 ponto, contra 1,95 do parcial.</p>

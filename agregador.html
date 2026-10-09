@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agregador de pesquisas</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Sans:wght@400;600&display=swap">
+<style>
+/* Same visual family as viradas.html and metodo.html on the public site; candidate colors as in painel.html */
+:root{color-scheme:light;--bg:#fcfcfb;--panel:#f3f2ef;--fg:#141413;--fg-2:#52514e;--muted:#8a8984;--rule:#e2e1dc;--grid:#ebeae6;
+--lula:#e34948;--flavio:#2a78d6;--s0:#a9a8a1;
+--serif:"Source Serif 4",Georgia,"Times New Roman",serif;--sans:"IBM Plex Sans",-apple-system,"Segoe UI",sans-serif}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#1a1a19;--panel:#242422;--fg:#f4f3ee;
+--fg-2:#c3c2b7;--muted:#8f8e86;--rule:#35342f;--grid:#2b2b28;--lula:#e66767;--flavio:#3987e5;--s0:#6e6d66}}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#1a1a19;--panel:#242422;--fg:#f4f3ee;--fg-2:#c3c2b7;--muted:#8f8e86;
+--rule:#35342f;--grid:#2b2b28;--lula:#e66767;--flavio:#3987e5;--s0:#6e6d66}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:18px/1.62 var(--serif)}
+main{max-width:860px;margin:0 auto;padding-inline:16px;padding-block:40px 80px}
+header .kicker{font:600 12px/1.4 var(--sans);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+h1{font:600 34px/1.2 var(--serif);margin:6px 0 10px;text-wrap:balance}
+.lede{font-size:19px;color:var(--fg-2);margin:0 0 8px}
+h2{font:600 23px/1.3 var(--serif);margin:64px 0 12px;text-wrap:balance}
+p{margin:0 0 14px}
+.tiles{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:22px 0 8px}
+.tile{background:var(--panel);border-radius:10px;padding:12px 14px;border-top:3px solid var(--c)}
+.tile .v{font:600 34px/1.15 var(--sans);font-variant-numeric:tabular-nums;color:var(--c)}
+.tile .l{font:14px/1.45 var(--sans);color:var(--fg-2);margin-top:4px}
+.tile .c{font:12.5px/1.4 var(--sans);color:var(--muted);margin-top:4px}
+.note{font:12.5px/1.5 var(--sans);color:var(--muted);margin:0 0 8px}
+.prox{font:14px/1.5 var(--sans);color:var(--fg-2);margin:12px 0 0;padding:10px 14px;border-left:3px solid var(--rule)}
+.prox b{color:var(--fg)}
+.prox a{color:var(--fg-2)}
+nav.top{font:13px/1.4 var(--sans);margin:0 0 14px}
+nav.top a,footer a,td a{color:var(--fg-2);text-decoration:none;border-bottom:1px solid var(--rule)}
+nav.top a:hover,footer a:hover,td a:hover{color:var(--fg)}
+figure{margin:24px 0 14px}
+figure .chart{width:100%}
+figure svg{display:block;width:100%;overflow:visible}
+figcaption{font:13px/1.5 var(--sans);color:var(--muted);margin-top:6px}
+svg text{font-family:var(--sans);font-size:12px;fill:var(--fg-2);paint-order:stroke;stroke:var(--bg);stroke-width:3px;stroke-linejoin:round;pointer-events:none}
+svg text.m{fill:var(--muted);font-size:11px}
+svg text.b{font-weight:600;font-size:13px}
+.legend{display:flex;gap:6px 18px;flex-wrap:wrap;font:13px/1.4 var(--sans);color:var(--fg-2);margin:4px 0 8px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:10px;height:10px;border-radius:50%;background:var(--c);display:inline-block}
+.legend i.ring{background:transparent;border:2px solid var(--s0)}
+.legend i.full{background:var(--s0)}
+.legend i.band{width:16px;height:10px;border-radius:2px;opacity:.25}
+#tip{position:fixed;pointer-events:none;background:var(--bg);color:var(--fg);border:1px solid var(--rule);border-radius:8px;padding:8px 10px;
+font:12.5px/1.45 var(--sans);box-shadow:0 2px 10px #0002;display:none;max-width:290px;z-index:9}
+.tw{overflow-x:auto;margin:10px 0 6px}
+table{border-collapse:collapse;font:13.5px/1.4 var(--sans);font-variant-numeric:tabular-nums;width:100%}
+th,td{padding:6px 7px;border-bottom:1px solid var(--rule);text-align:right;white-space:nowrap}
+th{color:var(--fg-2);font-weight:600;font-size:12.5px;vertical-align:bottom}
+th:first-child,td:first-child{text-align:left}
+td.l,th.l{text-align:left}
+#tp td:first-child{white-space:normal;min-width:140px;max-width:170px}
+#tp td:nth-child(2){white-space:normal;min-width:110px}
+td .pt{color:var(--muted);font-size:12px}
+tr.grp th{border-bottom:none;text-align:center;padding-bottom:0;color:var(--muted)}
+caption{caption-side:bottom;text-align:left;font:12.5px/1.5 var(--sans);color:var(--muted);padding-top:8px;white-space:normal}
+.box{background:var(--panel);border-radius:10px;padding:14px 18px;margin:18px 0;font-size:16.5px}
+.box p:last-child{margin:0}
+footer{margin-top:56px;padding-top:14px;border-top:1px solid var(--rule);font:13px/1.55 var(--sans);color:var(--muted)}
+footer p{margin:0 0 8px}
+@media (max-width:560px){body{font-size:17px}h1{font-size:28px}.tile .v{font-size:28px}}
+</style></head><body><main>
+<header>
+<nav class="top"><a href="index.html">← Eleições 2026</a> · <a href="painel.html">Painel da apuração</a> · <a href="viradas.html">Viradas no 2º turno</a></nav>
+<div class="kicker">Eleição presidencial de 2026 · 2º turno</div>
+<h1>Agregador de pesquisas do 2º turno</h1>
+<p class="lede">Nas 4 pesquisas nacionais divulgadas desde o 1º turno, Flávio Bolsonaro tem em média 51,7% dos votos válidos e Lula, 48,3%. A média desconta a tendência de cada instituto, medida pelo quanto ele errou na véspera do 1º turno, e é atualizada à medida que novas pesquisas são divulgadas.</p>
+</header>
+
+<div class="tiles">
+<div class="tile" style="--c:var(--flavio)"><div class="v">51,7%</div><div class="l">Flávio Bolsonaro (PL)</div><div class="c">faixa de 50,0% a 53,4%</div></div>
+<div class="tile" style="--c:var(--lula)"><div class="v">48,3%</div><div class="l">Lula (PT)</div><div class="c">faixa de 46,6% a 50,0%</div></div>
+</div>
+<p class="note">Votos válidos, média em 07/10 (meio do campo da pesquisa mais recente). A faixa é o intervalo de confiança de 90% da média: leva em conta o tamanho de cada amostra, o erro próprio de cada rodada e a incerteza sobre o ajuste de cada instituto.</p>
+<p class="prox"><b>Próximas pesquisas nacionais:</b> Ipespe (10/10), Datatrends (11/10), 100% Cidades, GERP, Nexus e PoderData (13/10), Quaest (14/10) e GERP (16/10). <a href="#calendario">Ver o calendário</a></p>
+
+<h2>A média dia a dia</h2>
+<div class="legend"><span><i style="--c:var(--flavio)"></i>Flávio Bolsonaro</span><span><i style="--c:var(--lula)"></i>Lula</span><span><i class="band" style="--c:var(--fg-2)"></i>Faixa de 90%</span><span><i class="full"></i>Número publicado pelo instituto</span><span><i class="ring"></i>Após ajuste do agregador</span></div>
+<figure><div class="chart" id="c-serie"></div>
+<figcaption>Cada ponto cheio é o número publicado pelo instituto, na data do meio do campo. O anel vazio é o mesmo número depois do ajuste feito por este agregador, e é ele que entra na média. Passe o mouse ou toque num ponto para ver a pesquisa.</figcaption></figure>
+
+<div class="box"><p>A faixa não inclui um erro comum a todos os institutos. Na véspera do 1º turno, os 7 institutos da tabela abaixo subestimaram a diferença a favor de Flávio em 4,4 pontos, em média. Se o 2º turno repetisse esse erro, Flávio estaria perto de 53,9% dos válidos. Em 2022 o erro do 1º turno não se repetiu com o mesmo tamanho no 2º.</p></div>
+
+<h2>As pesquisas na média</h2>
+<div class="tw"><table id="tp">
+<thead><tr class="grp"><th colspan="3"></th><th colspan="4">Votos totais (%)</th><th colspan="3">Flávio nos válidos (%)</th></tr>
+<tr><th>Instituto</th><th class="l">Campo</th><th>Margem<br>(confiança)</th><th>Flávio</th><th>Lula</th><th>Branco<br>e nulo</th><th>Não<br>sabe</th><th>Publicado</th><th>Ponderado<br>pelo 1º turno</th><th>Após ajuste<br>do agregador</th></tr></thead>
+<tbody></tbody>
+</table></div>
+<p class="note">Margem de erro em pontos, para o total da amostra, com o nível de confiança informado pelo instituto. As duas últimas colunas são cálculos deste agregador. "Ponderado pelo 1º turno" refaz o cálculo do instituto com o peso real de cada grupo de eleitores do 1º turno, quando o relatório traz o 2º turno cruzado pelo voto no 1º. "Após ajuste do agregador" é esse número, ou o publicado, descontada a tendência do instituto estimada aqui.</p>
+
+<h2 id="calendario">Próximas pesquisas</h2>
+<p>Pesquisas nacionais de 2º turno para presidente já registradas no TSE e ainda não divulgadas. Cada uma entra na média no dia em que sair.</p>
+<div class="tw"><table id="tc">
+<thead><tr><th>Divulgação prevista</th><th class="l">Instituto</th><th class="l">Campo</th><th>Entrevistas</th><th class="l">Registro</th></tr></thead>
+<tbody></tbody></table></div>
+<p class="note">A data é a que o instituto informou ao TSE como a primeira em que pode divulgar; a divulgação pode sair depois. Quando o registro traz data anterior ao fim do campo, vale o fim do campo. Fonte: arquivo de pesquisas eleitorais do TSE, versão de 09/10, 05h46.</p>
+
+<h2>Quanto cada instituto errou na véspera do 1º turno</h2>
+<p>No resultado oficial do 1º turno, Flávio ficou 1,87 pontos à frente de Lula, com 47,03% a 45,16%. O ajuste de cada instituto parte do quanto a sua última pesquisa antes de 04/10 errou essa diferença. Como uma pesquisa só também erra por acaso, o ajuste usa metade da distância entre o erro do instituto e o erro médio de todos. As pesquisas de 2º turno de cada instituto podem mudar esse ajuste.</p>
+<div class="tw"><table id="t1">
+<thead><tr><th>Instituto</th><th class="l">Campo</th><th>Entrevistas</th><th>Flávio</th><th>Lula</th><th>Erro na diferença</th><th>Ajuste inicial na fatia de Flávio</th></tr></thead>
+<tbody></tbody>
+</table></div>
+<p class="note">Votos válidos, em %. Erro positivo significa que a pesquisa deu a Flávio mais do que ele teve. O ajuste é somado ao número do instituto antes de entrar na média (positivo aumenta Flávio). Institutos sem pesquisa conferida na véspera começam com ajuste zero.</p>
+
+<h2>Como a média é calculada</h2>
+<p>A média de cada dia é a de um modelo em que a preferência do eleitorado muda pouco de um dia para o outro, e cada pesquisa a mede com três fontes de erro. A primeira é o acaso da amostra, que diminui com o número de entrevistas. A segunda é um erro próprio daquela rodada. A terceira é a tendência do instituto, que se repete em todas as suas pesquisas. Pesquisas maiores pesam mais, e duas rodadas do mesmo instituto não contam como evidência independente sobre a tendência dele.</p>
+<p>Só entram pesquisas nacionais de 2º turno registradas no TSE, com campo depois do 1º turno. As simulações de 2º turno feitas antes de 04/10 ficaram de fora porque o 1º turno mudou o quadro, com os eleitores de Cury, Renan Santos e Caiado escolhendo entre os dois finalistas.</p>
+
+<footer><p class="nav"><a href="index.html">Início</a> · <a href="painel.html">Painel da apuração</a> · <a href="viradas.html">Viradas no 2º turno</a> · <a href="metodo.html">Nota de método</a></p>
+<p>Desenvolvido por Luis Meloni, com auxílio do Claude Code na implementação. As escolhas metodológicas, dados e conteúdo são de responsabilidade do autor; eventuais erros ou imprecisões são de minha responsabilidade.</p>
+<p>Números das pesquisas tirados dos relatórios dos institutos e da imprensa (link em cada linha); registro, campo e número de entrevistas conferidos no arquivo de pesquisas eleitorais do TSE. Resultado do 1º turno, do TSE. Versão de 09/10/2026.</p></footer>
+</main><div id="tip"></div>
+<script>
+const R={"gerado": "2026-10-09", "inicio": "2026-10-05", "fim": "2026-10-25", "margem_1t": 1.87, "flavio_1t": 47.03, "lula_1t": 45.16, "erro_medio_margem": -4.38, "erro_comum_fatia": 2.19, "params": {"omega": 0.25, "kappa": 1.0, "tau": 1.5, "deff": 2.0, "shrink": 0.5}, "serie": [{"data": "2026-10-05", "media": 51.7, "lo": 50.0, "hi": 53.4}, {"data": "2026-10-06", "media": 51.69, "lo": 50.01, "hi": 53.38}, {"data": "2026-10-07", "media": 51.7, "lo": 49.98, "hi": 53.41}], "pesquisas": [{"instituto": "AtlasIntel", "registro": "BR-03663/2026", "contratante": "AtlasIntel (recursos próprios)", "campo": "03–08/10", "divulgacao": "09/10", "data_meio": "2026-10-05", "n": 5026, "modo": "questionário web", "margem_erro": 1.0, "confianca": 95, "flavio": 51.1, "lula": 45.7, "branco_nulo": null, "nao_sabe": 3.2, "valido_pub": 52.8, "reponderado": null, "reponderado_todos": null, "ajuste": -0.53, "ajustado": 52.3, "fonte": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/atlasintel-presidente-outubro-2026-segundo-turno/"}, {"instituto": "PoderData", "registro": "BR-08134/2026", "contratante": "PoderData (recursos próprios)", "campo": "05–07/10", "divulgacao": "08/10", "data_meio": "2026-10-06", "n": 3000, "modo": "telefone automático (URA)", "margem_erro": 1.8, "confianca": 95, "flavio": 49.0, "lula": 44.0, "branco_nulo": 5.0, "nao_sabe": 2.0, "valido_pub": 52.7, "reponderado": 52.6, "reponderado_todos": 53.1, "ajuste": -0.0, "ajustado": 52.6, "fonte": "https://static.poder360.com.br/uploads/2026/10/Relatorio-PoderData-Eleitoral-8out26-final.pdf"}, {"instituto": "Vox Brasil", "registro": "BR-09623/2026", "contratante": "Vox Brasil (recursos próprios)", "campo": "05–07/10", "divulgacao": "09/10", "data_meio": "2026-10-06", "n": 2100, "modo": "presencial domiciliar", "margem_erro": 2.15, "confianca": 95, "flavio": 42.7, "lula": 44.2, "branco_nulo": 3.4, "nao_sabe": 9.7, "valido_pub": 49.1, "reponderado": null, "reponderado_todos": null, "ajuste": 0.96, "ajustado": 50.1, "fonte": "https://static.poder360.com.br/uploads/2026/10/pesquisa-vox-brasil-9out2026.pdf"}, {"instituto": "Datafolha", "registro": "BR-02949/2026", "contratante": "Folha da Manhã e Globo", "campo": "06–08/10", "divulgacao": "08/10", "data_meio": "2026-10-07", "n": 2520, "modo": "presencial em pontos de fluxo", "margem_erro": 2.0, "confianca": 95, "flavio": 49.0, "lula": 45.0, "branco_nulo": 5.0, "nao_sabe": 1.0, "valido_pub": 52.1, "reponderado": null, "reponderado_todos": null, "ajuste": -0.11, "ajustado": 52.0, "fonte": "https://static.poder360.com.br/uploads/2026/10/datafolha-presidente-2turno-8out2026.pdf"}], "primeiro_turno": [{"instituto": "GERP", "registro": "BR-00509/2026", "campo": "30/09–02/10", "n": 2400, "modo": "cotas", "flavio": 46.0, "lula": 44.0, "erro_margem": 0.13, "mu": 1.13, "fonte": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/um-de-seis-institutos-de-pesquisa-apontava-flavio-numericamente-a-frente-de-lula/"}, {"instituto": "Quaest", "registro": "BR-02197/2026", "campo": "02/10–03/10", "n": 3702, "modo": "presencial domiciliar", "flavio": 45.0, "lula": 46.0, "erro_margem": -2.87, "mu": 0.38, "fonte": "https://www.brasildefato.com.br/2026/10/03/lula-tem-46-e-flavio-bolsonaro-45-dos-votos-validos-aponta-quaest/"}, {"instituto": "PoderData", "registro": "BR-03519/2026", "campo": "30/09–02/10", "n": 4000, "modo": "telefone automático (URA)", "flavio": 43.0, "lula": 45.0, "erro_margem": -3.87, "mu": 0.13, "fonte": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/um-de-seis-institutos-de-pesquisa-apontava-flavio-numericamente-a-frente-de-lula/"}, {"instituto": "AtlasIntel", "registro": "BR-00999/2026", "campo": "27/09–02/10", "n": 4945, "modo": "questionário web", "flavio": 44.1, "lula": 47.0, "erro_margem": -4.77, "mu": -0.1, "fonte": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/um-de-seis-institutos-de-pesquisa-apontava-flavio-numericamente-a-frente-de-lula/"}, {"instituto": "Datafolha", "registro": "BR-01708/2026", "campo": "03/10–03/10", "n": 4006, "modo": "presencial em pontos de fluxo", "flavio": 42.0, "lula": 45.0, "erro_margem": -4.87, "mu": -0.12, "fonte": "https://media.folha.uol.com.br/datafolha/2026/10/05/clhx3ko6h42kpfw2vumafq-v2.pdf"}, {"instituto": "Real Time Big Data", "registro": "BR-09503/2026", "campo": "26/09–30/09", "n": 2000, "modo": "telefone e digital", "flavio": 41.0, "lula": 46.0, "erro_margem": -6.87, "mu": -0.62, "fonte": "https://jornalgrandebahia.com.br/2026/10/pesquisas-presidenciais-entram-na-reta-final-das-eleicoes-2026-com-novas-rodadas-ate-sabado-veja-resultados-desde-23-de-setembro-e-registros-no-tse/"}, {"instituto": "CNT/MDA", "registro": "BR-04756/2026", "campo": "29/09–02/10", "n": 2002, "modo": "presencial", "flavio": 42.1, "lula": 47.8, "erro_margem": -7.57, "mu": -0.8, "fonte": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/um-de-seis-institutos-de-pesquisa-apontava-flavio-numericamente-a-frente-de-lula/"}], "casas": {"AtlasIntel": {"prior": -0.1, "post": 0.53, "dp": 1.17}, "Datafolha": {"prior": -0.12, "post": 0.11, "dp": 1.22}, "Vox Brasil": {"prior": 0.0, "post": -0.96, "dp": 1.25}}}, R_CAL={"registro_tse": "09/10/2026 05:46:49", "proximas": [{"instituto": "Ipespe", "registro": "BR-00933/2026", "campo": "06/10–08/10", "divulgacao": "2026-10-10", "divulgacao_registro": "2026-10-10", "n": 1500}, {"instituto": "Datatrends", "registro": "BR-03576/2026", "campo": "07/10–09/10", "divulgacao": "2026-10-11", "divulgacao_registro": "2026-10-11", "n": 2000}, {"instituto": "100% Cidades", "registro": "BR-00650/2026", "campo": "07/10–10/10", "divulgacao": "2026-10-13", "divulgacao_registro": "2026-10-13", "n": 2000}, {"instituto": "GERP", "registro": "BR-07877/2026", "campo": "08/10–12/10", "divulgacao": "2026-10-13", "divulgacao_registro": "2026-10-13", "n": 2400}, {"instituto": "Nexus", "registro": "BR-07997/2026", "campo": "10/10–12/10", "divulgacao": "2026-10-13", "divulgacao_registro": "2026-10-13", "n": 2000}, {"instituto": "PoderData", "registro": "BR-01209/2026", "campo": "10/10–12/10", "divulgacao": "2026-10-13", "divulgacao_registro": "2026-10-13", "n": 3000}, {"instituto": "Quaest", "registro": "BR-08729/2026", "campo": "10/10–13/10", "divulgacao": "2026-10-14", "divulgacao_registro": "2026-10-14", "n": 2154}, {"instituto": "GERP", "registro": "BR-05187/2026", "campo": "14/10–16/10", "divulgacao": "2026-10-16", "divulgacao_registro": "2026-10-13", "n": 2400}]};
+const NS="http://www.w3.org/2000/svg";
+const el=(t,a,p)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);p&&p.appendChild(e);return e};
+const txt=(p,x,y,s,a={})=>{const e=el("text",Object.assign({x,y},a),p);e.textContent=s;return e};
+const css=v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+const f=(x,d=1)=>x==null?"–":(+x).toFixed(d).replace(".",",").replace("-","−");
+const sg=(x,d=1)=>x==null?"–":(x>0?"+":"")+f(x,d);
+const tip=document.getElementById("tip");
+function move(ev){const t=ev.touches?ev.touches[0]:ev;tip.style.left=Math.max(8,Math.min(t.clientX+14,innerWidth-300))+"px";tip.style.top=(t.clientY+14)+"px"}
+function show(ev,h){tip.innerHTML=h;tip.style.display="block";move(ev)}
+function hide(){tip.style.display="none"}
+function hover(node,html){node.addEventListener("mouseenter",e=>show(e,html));node.addEventListener("mousemove",move);
+ node.addEventListener("mouseleave",hide);node.addEventListener("touchstart",e=>show(e,html),{passive:true})}
+const day=s=>Date.parse(s+"T12:00:00Z")/864e5;
+const dm=s=>s.slice(8,10)+"/"+s.slice(5,7);
+
+function serie(){const box=document.getElementById("c-serie");box.innerHTML="";const W=box.clientWidth,H=Math.max(300,Math.min(400,W*.55));
+ const s=el("svg",{viewBox:`0 0 ${W} ${H}`,height:H},box),m={l:40,r:92,t:14,b:34};
+ const d0=day(R.inicio),d1=day(R.fim);
+ const ys=[...R.pesquisas.flatMap(p=>[p.valido_pub,p.ajustado,100-p.valido_pub,100-p.ajustado]),...R.serie.flatMap(d=>[d.lo,d.hi,100-d.lo,100-d.hi])];
+ let lo=Math.floor(Math.min(...ys)-1),hi=Math.ceil(Math.max(...ys)+1);
+ const x=v=>m.l+(v-d0)/(d1-d0)*(W-m.l-m.r),y=v=>m.t+(hi-v)/(hi-lo)*(H-m.t-m.b);
+ for(let v=lo;v<=hi;v++){if(v%2)continue;el("line",{x1:m.l,x2:W-m.r,y1:y(v),y2:y(v),stroke:css("--grid")},s);txt(s,m.l-8,y(v)+4,v+"%",{"text-anchor":"end"})}
+ el("line",{x1:m.l,x2:W-m.r,y1:y(50),y2:y(50),stroke:css("--fg-2"),"stroke-width":1},s);
+ const ticks=[R.inicio,"2026-10-10","2026-10-15","2026-10-20",R.fim];
+ for(const t of ticks){txt(s,x(day(t)),H-m.b+18,dm(t),{"text-anchor":"middle",class:"m"})}
+ el("line",{x1:x(d1),x2:x(d1),y1:m.t,y2:H-m.b,stroke:css("--rule"),"stroke-dasharray":"3 3"},s);
+ txt(s,x(d1)-4,m.t+10,"25/10",{"text-anchor":"end",class:"m"});
+ const cand=[["--flavio",v=>v,"Flávio"],["--lula",v=>100-v,"Lula"]];
+ for(const [c,tr] of cand){const col=css(c);
+  const up=R.serie.map(d=>[x(day(d.data)),y(Math.max(tr(d.lo),tr(d.hi)))]),dn=R.serie.map(d=>[x(day(d.data)),y(Math.min(tr(d.lo),tr(d.hi)))]).reverse();
+  const pts=up.concat(dn);const one=R.serie.length===1;
+  if(one){const X=pts[0][0];el("rect",{x:X-3,y:pts[0][1],width:6,height:pts[1][1]-pts[0][1],fill:col,opacity:.18},s)}
+  else el("path",{d:"M"+pts.map(p=>p.join(",")).join("L")+"Z",fill:col,opacity:.18},s);
+  el("path",{d:"M"+R.serie.map(d=>x(day(d.data))+","+y(tr(d.media))).join("L"),fill:"none",stroke:col,"stroke-width":2.5},s)}
+ for(const p of R.pesquisas){const X=x(day(p.data_meio));
+  for(const [c,tr,nm] of cand){const col=css(c);
+   el("circle",{cx:X,cy:y(tr(p.ajustado)),r:4.5,fill:"none",stroke:col,"stroke-width":1.5,opacity:.7},s);
+   const dot=el("circle",{cx:X,cy:y(tr(p.valido_pub)),r:5,fill:col,stroke:css("--bg"),"stroke-width":1.5},s);
+   hover(dot,`<b>${p.instituto}</b> · campo ${p.campo}<br>${nm}: <b>${f(tr(p.valido_pub))}%</b> publicado${p.reponderado!=null?`, ponderado pelo 1º turno ${f(tr(p.reponderado))}%`:""}<br>Após ajuste do agregador: ${f(tr(p.ajustado))}%<br>${f(p.n,0)} entrevistas · ${p.modo}`)}}
+ const u=R.serie[R.serie.length-1],X=x(day(u.data));
+ txt(s,X+10,y(u.media)+(u.media>=50?-2:12),"Flávio "+f(u.media)+"%",{class:"b",fill:css("--flavio")}).style.fill=css("--flavio");
+ txt(s,X+10,y(100-u.media)+(u.media>=50?12:-2),"Lula "+f(100-u.media)+"%",{class:"b"}).style.fill=css("--lula");
+}
+
+function tabelas(){
+ document.querySelector("#tp tbody").innerHTML=[...R.pesquisas].reverse().map(p=>`<tr><td><a href="${p.fonte}">${p.instituto}</a><br><span class="pt">${p.registro}<br>${p.contratante}</span></td><td class="l">${p.campo}<br><span class="pt">${p.n.toLocaleString("pt-BR")} entrevistas<br>${p.modo}</span></td><td>±${f(p.margem_erro)} (${p.confianca}%)</td><td>${f(p.flavio)}</td><td>${f(p.lula)}</td><td>${f(p.branco_nulo)}</td><td>${f(p.nao_sabe)}</td><td><b>${f(p.valido_pub)}</b></td><td>${f(p.reponderado)}</td><td>${f(p.ajustado)}</td></tr>`).join("");
+ document.querySelector("#t1 tbody").innerHTML=R.primeiro_turno.map(t=>`<tr><td><a href="${t.fonte}">${t.instituto}</a><br><span class="pt">${t.registro}</span></td><td class="l">${t.campo}</td><td>${t.n.toLocaleString("pt-BR")}</td><td>${f(t.flavio)}</td><td>${f(t.lula)}</td><td>${sg(t.erro_margem)}</td><td>${sg(-t.mu,2)}</td></tr>`).join("");
+}
+tabelas();serie();
+document.querySelector("#tc tbody").innerHTML=R_CAL.proximas.map(q=>`<tr><td>${dm(q.divulgacao)}</td><td class="l">${q.instituto}</td><td class="l">${q.campo}</td><td>${q.n.toLocaleString("pt-BR")}</td><td class="l">${q.registro}</td></tr>`).join("")||`<tr><td colspan="5" class="l">Nenhuma pesquisa nacional registrada ainda por divulgar.</td></tr>`;
+let rt;addEventListener("resize",()=>{clearTimeout(rt);rt=setTimeout(serie,120)});
+matchMedia("(prefers-color-scheme: dark)").addEventListener("change",serie);
+addEventListener("scroll",hide,{passive:true});
+</script></body></html>
