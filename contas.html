@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contas do 2º turno</title>
+<meta name="description" content="Quantos votos Lula precisa tirar no 2º turno de 2026 e quanto cada grupo de eleitores pode render, com uma calculadora.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Sans:wght@400;600&display=swap">
+<style>
+/* Same visual family as agregador.html and viradas.html */
+:root{color-scheme:light;--bg:#fcfcfb;--panel:#f3f2ef;--fg:#141413;--fg-2:#52514e;--muted:#8a8984;--rule:#e2e1dc;--grid:#ebeae6;
+--lula:#e34948;--lula-2:#f0a3a2;--lula-3:#f7cfce;--flavio:#2a78d6;--s0:#a9a8a1;
+--serif:"Source Serif 4",Georgia,"Times New Roman",serif;--sans:"IBM Plex Sans",-apple-system,"Segoe UI",sans-serif}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#1a1a19;--panel:#242422;--fg:#f4f3ee;
+--fg-2:#c3c2b7;--muted:#8f8e86;--rule:#35342f;--grid:#2b2b28;--lula:#e66767;--lula-2:#a94a4a;--lula-3:#6e3535;--flavio:#3987e5;--s0:#6e6d66}}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#1a1a19;--panel:#242422;--fg:#f4f3ee;--fg-2:#c3c2b7;--muted:#8f8e86;
+--rule:#35342f;--grid:#2b2b28;--lula:#e66767;--lula-2:#a94a4a;--lula-3:#6e3535;--flavio:#3987e5;--s0:#6e6d66}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:18px/1.6 var(--serif)}
+main{max-width:760px;margin:0 auto;padding-inline:16px;padding-block:40px 80px}
+.kicker{font:600 12px/1.4 var(--sans);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+h1{font:600 34px/1.2 var(--serif);margin:6px 0 14px}
+.dek{font:21px/1.35 var(--serif);font-style:italic;color:var(--fg-2);margin:0 0 18px}
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:0 0 10px}
+.tile{background:var(--panel);border-radius:10px;padding:12px 14px;border-top:3px solid var(--c)}
+.tile .v{font:600 30px/1.1 var(--sans);font-variant-numeric:tabular-nums;color:var(--c)}
+.tile .l{font:13.5px/1.4 var(--sans);color:var(--fg-2);margin-top:4px}
+.tiles2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:18px 0 8px}
+.tile .k{font:600 12px/1.4 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.tile .l a{color:var(--fg-2)}
+.pts{list-style:none;padding:0;margin:22px 0 0}
+.pts>li{margin:0 0 30px}
+.pts h2{margin:0 0 6px;font-size:21px}
+.fig{margin:12px 0 4px}
+.fig svg{display:block;width:100%;overflow:visible}
+.fig text{font-family:var(--sans);font-size:12px;fill:var(--fg-2)}
+.fig text.b{fill:var(--fg);font-weight:600}
+.fig text.m{fill:var(--muted);font-size:11px}
+th .tag{display:block;font-weight:400;color:var(--muted)}
+.note a,details a{color:var(--fg-2)}
+h2{font:600 22px/1.3 var(--serif);margin:52px 0 10px}
+p{margin:0 0 14px}
+.note{font:12.5px/1.5 var(--sans);color:var(--muted)}
+nav.top{font:13px/1.4 var(--sans);margin:0 0 14px}
+nav.top a,footer a{color:var(--fg-2);text-decoration:none;border-bottom:1px solid var(--rule)}
+/* budget */
+.gap{margin:20px 0 6px;font-family:var(--sans)}
+.gap .track{display:flex;height:34px;border-radius:5px;overflow:hidden;border:1px solid var(--rule)}
+.gap .track i{display:block;height:100%}
+.gap .keys{display:flex;flex-wrap:wrap;gap:4px 16px;font-size:13px;color:var(--fg-2);margin:8px 0 0}
+.gap .keys span{display:inline-flex;align-items:center;gap:6px}
+.gap .keys b{display:inline-block;width:11px;height:11px;border-radius:2px}
+.gap .ends{display:flex;justify-content:space-between;font-size:12.5px;color:var(--muted);margin:0 0 4px}
+.tw{overflow-x:auto;margin:10px 0 6px}
+table{border-collapse:collapse;font:13.5px/1.45 var(--sans);font-variant-numeric:tabular-nums;width:100%}
+th,td{padding:7px 8px;border-bottom:1px solid var(--rule);text-align:left;vertical-align:top}
+th{font-weight:600;color:var(--fg-2);font-size:12.5px;vertical-align:bottom}
+td.n,th.n{text-align:right;white-space:nowrap}
+td .sw{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px}
+tr.tot td{font-weight:600;border-top:1.5px solid var(--fg-2)}
+tr.falta td{font-weight:600;color:var(--flavio)}
+.box{background:var(--panel);border-radius:10px;padding:14px 18px;margin:16px 0;font-size:17px}
+.box p:last-child{margin:0}
+/* calculator */
+.calc{margin-top:10px}
+.res{position:sticky;top:0;z-index:5;background:var(--bg);padding:10px 0 12px;border-bottom:1px solid var(--rule);margin:6px 0 8px}
+.nums{display:flex;justify-content:space-between;align-items:baseline;font-family:var(--sans)}
+.nums .v{font:600 28px/1.1 var(--sans);font-variant-numeric:tabular-nums}
+.nums .nm{font-size:13px;color:var(--fg-2)}
+.bar{position:relative;height:12px;border-radius:4px;overflow:hidden;display:flex;margin:6px 0 6px}
+.bar i{display:block;height:100%}
+.bar .mid{position:absolute;left:50%;top:0;bottom:0;width:2px;margin-left:-1px;background:var(--bg)}
+.rline{font:14px/1.45 var(--sans);color:var(--fg-2);margin:0}
+.rline b{color:var(--fg)}
+.acts{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 0}
+.acts button{font:12.5px/1.2 var(--sans);padding:5px 10px;border-radius:999px;border:1px solid var(--rule);background:var(--panel);color:var(--fg-2);cursor:pointer}
+.lev{background:var(--panel);border-radius:12px;padding:16px 18px;margin:14px 0}
+.lev h3{font:600 16.5px/1.3 var(--sans);margin:0 0 6px}
+.lev p{font:14.5px/1.5 var(--sans);color:var(--fg-2);margin:0 0 10px}
+.btns{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 6px}
+.btns button{font:13px/1.2 var(--sans);padding:6px 11px;border-radius:999px;border:1px solid var(--rule);background:var(--bg);color:var(--fg-2);cursor:pointer}
+.btns button.on{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.ctl{display:grid;grid-template-columns:1fr auto;gap:0 10px;align-items:center;font:14px/1.4 var(--sans);color:var(--fg);margin:10px 0 0}
+.ctl output{font-weight:600;font-variant-numeric:tabular-nums}
+.ctl input{grid-column:1/-1;width:100%;accent-color:var(--fg-2);height:30px}
+.rende{font:600 14px/1.45 var(--sans);margin:6px 0 0}
+.emp{font:13.5px/1.45 var(--sans);color:var(--fg-2);margin:4px 0 0}
+.emp:empty,.rende:empty{display:none}
+details{font:14px/1.5 var(--sans);color:var(--fg-2);margin:12px 0 0}
+details summary{cursor:pointer}
+details p{font-size:14px}
+details table td,details table th{white-space:nowrap}
+details table td.w{white-space:normal}
+.how{margin-top:28px}
+footer{margin-top:56px;padding-top:14px;border-top:1px solid var(--rule);font:13px/1.55 var(--sans);color:var(--muted)}
+footer p{margin:0 0 8px}
+@media (max-width:560px){body{font-size:17px}h1{font-size:28px}.tiles,.tiles2{grid-template-columns:1fr}.tile .v{font-size:26px}.nums .v{font-size:24px}.lev{padding:14px}}
+</style></head><body><main>
+<nav class="top"><a href="index.html">← Eleições 2026</a> · <a href="agregador.html">Agregador de pesquisas</a> · <a href="viradas.html">Viradas no 2º turno</a></nav>
+<div class="kicker">Eleição presidencial de 2026 · 2º turno</div>
+<h1>As contas do 2º turno</h1>
+<div class="tiles2">
+<div class="tile" style="--c:var(--s0)"><div class="k">No 1º turno</div><div class="v">Flávio +2,2 mi</div><div class="l">47,0% contra 45,2% dos votos válidos</div></div>
+<div class="tile" style="--c:var(--flavio)"><div class="k">Pelas pesquisas, hoje</div><div class="v">Flávio +4,5 mi</div><div class="l">51,9% contra 48,1% dos válidos, na <a href="agregador.html">média de 5 pesquisas</a> divulgadas até 10/10</div></div>
+</div>
+
+<h2>Faça a sua simulação</h2>
+<p>Até o 2º turno, a diferença muda por três grupos de eleitores. A simulação começa num cenário montado com as mesmas pesquisas, que dá quase o mesmo resultado (51,8%); mexa em cada grupo e veja o que muda. Não é previsão.</p>
+<div class="calc">
+<div class="res" id="res">
+<div class="nums"><div><div class="v" id="r-f" style="color:var(--flavio)"></div><div class="nm">Flávio Bolsonaro</div></div>
+<div style="text-align:right"><div class="v" id="r-l" style="color:var(--lula)"></div><div class="nm">Lula</div></div></div>
+<div class="bar"><i id="b-f" style="background:var(--flavio)"></i><i id="b-l" style="background:var(--lula)"></i><span class="mid"></span></div>
+<p class="rline" id="r-line"></p>
+<div class="acts"><button id="b-copy">Copiar link desta simulação</button><button id="b-reset">Voltar ao cenário das pesquisas</button></div>
+</div>
+
+<div class="lev">
+<h3>E se Lula conquistar mais eleitores de outros candidatos?</h3>
+<p>9,3 milhões votaram em Cury, Renan Santos, Caiado, Zema e outros.</p>
+<div class="btns" data-g="t"><button data-v="referencia">Média das pesquisas (35)</button><button data-v="datafolha">Datafolha (41)</button><button data-v="ipespe">Ipespe (33)</button><button data-v="poderdata">PoderData (31)</button></div>
+<label class="ctl">Votos em Lula: de cada 100 que escolhem Lula ou Flávio<output id="o-x"></output><input type="range" id="x" min="0" max="100" step="1"></label>
+<p class="rende" id="g-x"></p>
+<p class="emp" id="e-x"></p>
+<details><summary>Candidato a candidato</summary>
+<div class="tw"><table id="t-terc"><thead><tr><th rowspan="2">No 1º turno</th><th rowspan="2" class="n">Votos</th><th rowspan="2">Apoio</th><th colspan="2" class="n">PoderData</th><th colspan="2" class="n">Ipespe</th></tr><tr><th class="n">Flávio</th><th class="n">Lula</th><th class="n">Flávio</th><th class="n">Lula</th></tr></thead><tbody></tbody></table></div>
+<p class="note">PoderData, BR-08134/2026, campo 05–07/10, 3.000 entrevistas, margem de erro de 1,8 ponto no total da amostra, 95% de confiança; o apoio de Cury saiu em 08/10, depois do campo. Ipespe, BR-00933/2026, campo 06–08/10, 1.500 entrevistas por telefone, margem de 2,6 pontos, 95%; cada candidato tem cerca de 30 entrevistas, e Zema aparece só junto com os demais, em "outros". Datafolha, BR-02949/2026, campo 06–08/10, 2.520 entrevistas, margem de 2 pontos, 95%; a Folha publicou só o grupo dos quatro. O que falta para 100% é branco, nulo ou não sabe. Em 2022, Ciro e Tebet apoiaram Lula e os eleitores deles se dividiram quase ao meio nas urnas; por isso a conta usa só as pesquisas de 2026.</p>
+</details>
+</div>
+
+<div class="lev">
+<h3>E se mais eleitores de Flávio deixarem de votar?</h3>
+<p>Quem votou num candidato no 1º turno e no 2º fica em casa ou anula. Em 2022 foram 4,8% dos eleitores de Lula e 1,1% dos de Bolsonaro; a simulação começa com 3,0% para os dois, a média de 2022.</p>
+<div class="btns" data-g="d"><button data-v="simetrico">Igual para os dois</button><button data-v="2022">Como em 2022 (pior para Lula)</button><button data-v="espelhado">2022 invertido (melhor para Lula)</button></div>
+<label class="ctl">Eleitores de Lula que não voltam a votar ou anulam<output id="o-dl"></output><input type="range" id="dl" min="0" max="15" step="0.5"></label>
+<label class="ctl">Eleitores de Flávio que não voltam a votar ou anulam<output id="o-df"></output><input type="range" id="df" min="0" max="15" step="0.5"></label>
+<p class="rende" id="g-d"></p>
+<p class="emp" id="e-d"></p>
+</div>
+
+<div class="lev">
+<h3>E se os que faltaram no 1º turno comparecerem agora?</h3>
+<p>33 milhões faltaram ao 1º turno. Em 2022, só 9 em cada 100 ausentes votaram no 2º, divididos quase ao meio.</p>
+<div class="btns" data-g="a"><button data-v="2022">Como em 2022</button><button data-v="alto">Mobilização alta (melhor para Lula)</button></div>
+<label class="ctl">Comparecimento: de cada 100 ausentes, quantos votam no 2º turno<output id="o-m"></output><input type="range" id="m" min="0" max="40" step="1"></label>
+<label class="ctl">Votos em Lula: de cada 100 que comparecem<output id="o-a"></output><input type="range" id="a" min="0" max="100" step="1"></label>
+<p class="rende" id="g-a"></p>
+<p class="emp" id="e-a"></p>
+<details><summary>Em quem votariam os ausentes: as contas</summary>
+<div class="tw"><table id="t-hip"><thead><tr><th>Hipótese</th><th class="n">Lula entre os dois</th></tr></thead><tbody></tbody></table></div>
+<p class="note">As quatro primeiras linhas supõem que o ausente votaria como alguém parecido com ele que foi votar, usando os boletins de urna de 2026 e o perfil do eleitorado de cada seção; nenhuma observa o ausente. A quinta é o que aconteceu em 2022 com quem de fato saiu de casa no 2º turno. A sexta é a resposta de quem diz à pesquisa que não votou, um grupo pequeno na amostra. Entre os votantes do 1º turno de 2026, Lula teve <span id="lula-vot"></span>% dos votos dados aos dois.</p>
+</details>
+</div>
+</div>
+
+<p class="note">Brancos e nulos do 1º turno seguem o padrão de 2022. Pesquisas usadas: <a href="https://static.poder360.com.br/uploads/2026/10/datafolha-presidente-2turno-8out2026.pdf">Datafolha (06/10–08/10)</a> · <a href="https://ipespe.org.br/wp-content/uploads/2026/10/TCK-CAMPANHA-01_-IPESPE-ABRAPEL_2T_-6-a-8-OUT-2026_vf.pdf">Ipespe (06/10–08/10)</a> · <a href="https://static.poder360.com.br/uploads/2026/10/Relatorio-PoderData-Eleitoral-8out26-final.pdf">PoderData (05/10–07/10)</a>.</p>
+
+<details class="how"><summary>Como a conta é feita</summary>
+<p>O ponto de partida é o resultado oficial do 1º turno de 2026. O voto dos eleitores dos derrotados vem só das pesquisas de 2026. A desistência e o voto dos ausentes vêm do 2º turno de 2022: para as 470 mil seções eleitorais que existiram nos dois turnos, comparei o voto no 1º turno com o voto no 2º, dentro de cada município, e estimei que fração de cada grupo foi para cada destino. São estimativas, não observações. A "mobilização alta" (15 em cada 100 ausentes votando, 55 em cada 100 deles em Lula) é uma hipótese desta página, acima do que se viu em 2022. A conta é feita para o país todo; feita estado por estado, com as taxas de cada estado, ela muda no máximo 0,3 ponto.</p>
+<p>As pesquisas sobre os eleitores dos derrotados mudam durante a campanha. Em 2022, a parcela de Lula entre os eleitores de Ciro e Tebet no Datafolha subiu cerca de 10 pontos nas três semanas entre os turnos.</p>
+</details>
+
+<footer><p class="nav"><a href="index.html">Início</a> · <a href="agregador.html">Agregador de pesquisas</a> · <a href="painel.html">Painel da apuração</a> · <a href="viradas.html">Viradas no 2º turno</a></p>
+<p>Desenvolvido por Luis Meloni, com auxílio do Claude Code na implementação. As escolhas metodológicas, dados e conteúdo são de responsabilidade do autor; eventuais erros ou imprecisões são de minha responsabilidade.</p>
+<p>Dados do Tribunal Superior Eleitoral (resultado do 1º turno de 2026, boletins de urna de 2022 e 2026, perfil do eleitorado por seção) e das pesquisas Datafolha, PoderData e Ipespe. Versão de 10/10/2026.</p></footer>
+</main>
+<script>
+const R={"faixas": [{"g": "Quem votou em Lula ou Flávio e não vota de novo", "h": [["como em 2022", -2.0400425569999996], ["igual para os dois", 0.0], ["2022 invertido", 2.0400425570000067]]}, {"g": "Eleitores dos candidatos derrotados", "h": [["Datafolha", 0.8145038224065573], ["Ipespe", -0.14954592869568017], ["PoderData", -0.6647162289926385], ["média", 0.0]]}, {"g": "Ausentes do 1º turno", "h": [["como em 2022", 0.0], ["mobilização alta", 0.3982399736000062]]}], "inicio": {"m1": 2.2279940000000025, "m0": 4.366234355569446}, "L1": 53.873673, "F1": 56.101667, "O": 9.316296, "N": 5.974464, "A": 33.465544, "bnL": 0.2333, "bnF": 0.2487, "terc": {"datafolha": {"c": 0.8387, "x": 0.4103}, "poderdata": {"c": 0.8168, "x": 0.3107}, "poderdata_cury_endosso": {"c": 0.8168, "x": 0.28269999999999995}, "ipespe": {"c": 0.7522, "x": 0.33120000000000005}, "referencia": {"c": 0.8026, "x": 0.3518}}, "des": {"2022": [0.048299999999999996, 0.0112], "simetrico": [0.02975, 0.02975], "espelhado": [0.0112, 0.048299999999999996]}, "aus": {"2022": {"m": 0.0891, "a": 0.5173961840628507}, "alto": {"m": 0.15, "a": 0.55}}, "polls": {"datafolha": "Datafolha", "ipespe": "Ipespe", "poderdata": "PoderData"}, "best_t": "datafolha", "agregador": 51.87, "tab_terc": [{"nome": "Augusto Cury (Avante)", "votos": 3448375, "apoio": "Flávio (08/10)", "pd": [56.0, 27.0, 11.0, 6.0], "ip": [50.0, 29.0, 14.0, 7.0]}, {"nome": "Renan Santos (Missão)", "votos": 2675781, "apoio": "neutro", "pd": [48.0, 25.0, 27.0, 1.0], "ip": [36.0, 20.0, 32.0, 12.0]}, {"nome": "Ronaldo Caiado (PSD)", "votos": 2605044, "apoio": "Flávio", "pd": [57.0, 19.0, 17.0, 6.0], "ip": [56.0, 15.0, 26.0, 4.0]}, {"nome": "Romeu Zema (Novo)", "votos": 326457, "apoio": "Flávio", "pd": [72.0, 10.0, 15.0, 3.0], "ip": null}], "hip": [["Votariam como o próprio município", 48.31], ["Votariam como os vizinhos de seção que foram votar", 48.53], ["Votariam como quem tem a mesma idade e escolaridade, no mesmo município", 51.34], ["O mesmo, com o voto por idade e escolaridade do PoderData", 49.47], ["Ausentes do 1º turno de 2022 que votaram no 2º turno", 51.7], ["Quem diz ao PoderData (05–07/10) que não votou no 1º turno", 44.73684210526316]], "dmax": 0.048299999999999996, "lula_votantes": 48.98704836920714, "m0": 4.366234355569446, "ate": "2026-10-10", "orc": {"m0": 4.366234355569446, "ganho": {"terc": 0.8145038224065573, "des": 2.0400425570000067, "aus": 0.3982399736000062}, "falta": 1.1134480025628761}};
+const H0=location.hash.slice(1);   // read before calc() rewrites the hash
+const ids=["x","dl","df","m","a"],S={c:R.terc.referencia.c};
+const f=(x,d=1)=>(+x).toFixed(d).replace(".",",").replace("-","−");
+const $=i=>document.getElementById(i);
+// figures
+const NS="http://www.w3.org/2000/svg",css=v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+const el=(t,a,p)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);p&&p.appendChild(e);return e};
+const tx=(p,x,y,str,a={})=>{const e=el("text",Object.assign({x,y},a),p);e.textContent=str;return e};
+function svg(id,H){const b=$(id);b.innerHTML="";const W=b.clientWidth;return [el("svg",{viewBox:`0 0 ${W} ${H}`,height:H},b),W]}
+function figInicio(){const I=R.inicio,[s,W]=svg("f-inicio",96),mob=W<560,l=mob?0:150,r=70,x=v=>l+v/Math.ceil(I.m0+0.5)*(W-l-r);
+ [["1º turno",I.m1,.45],["Com os derrotados",I.m0,1]].forEach(([n,v,o],i)=>{const y=8+i*40;
+  tx(s,mob?0:l-10,mob?y+2:y+16,n,{"text-anchor":mob?"start":"end",class:"b"});
+  const yy=mob?y+8:y;el("rect",{x:l,y:yy,width:x(v)-l,height:22,rx:3,fill:css("--flavio"),opacity:o},s);
+  tx(s,x(v)+8,yy+16,"Flávio +"+f(v)+" mi",{class:"b"})});}
+function figFaixas(){const mob=$("f-faixas").clientWidth<560,F=R.faixas,rh=mob?92:72,[s,W]=svg("f-faixas",F.length*rh+34),l=mob?8:250,r=16;
+ const all=F.flatMap(g=>g.h.map(h=>h[1])),lim=Math.ceil(Math.max(...all.map(Math.abs))+0.3),x=v=>l+(v+lim)/(2*lim)*(W-l-r);
+ for(let v=-lim;v<=lim;v++){el("line",{x1:x(v),x2:x(v),y1:6,y2:F.length*rh+6,stroke:css("--rule")},s);tx(s,x(v),F.length*rh+20,(v>0?"+":"")+v,{"text-anchor":"middle",class:"m"})}
+ el("line",{x1:x(0),x2:x(0),y1:2,y2:F.length*rh+8,stroke:css("--fg"),"stroke-width":1.5},s);
+ tx(s,x(0)+6,F.length*rh+33,"a favor de Lula →",{}).style.fill=css("--lula");tx(s,x(0)-6,F.length*rh+33,"← a favor de Flávio",{"text-anchor":"end"}).style.fill=css("--flavio");
+ F.forEach((g,i)=>{const y=i*rh+(mob?56:30),vs=g.h.map(h=>h[1]),lo=Math.min(...vs),hi=Math.max(...vs);
+  tx(s,mob?l:l-12,mob?y-36:y+4,g.g,{"text-anchor":mob?"start":"end",class:"b"});
+  if(hi>0)el("rect",{x:x(Math.max(lo,0)),y:y-8,width:x(hi)-x(Math.max(lo,0)),height:16,rx:3,fill:css("--lula"),opacity:.35},s);
+  if(lo<0)el("rect",{x:x(lo),y:y-8,width:x(Math.min(hi,0))-x(lo),height:16,rx:3,fill:css("--flavio"),opacity:.35},s);
+  [...g.h].sort((a,b)=>a[1]-b[1]).forEach((h,j,arr)=>{if(Math.abs(h[1])<0.01&&h[0]!=="igual para os dois"&&h[0]!=="média"&&h[0]!=="como em 2022")return;
+   el("line",{x1:x(h[1]),x2:x(h[1]),y1:y-11,y2:y+11,stroke:css("--fg-2"),"stroke-width":1.5},s);
+   const up=j%2===0,zero=Math.abs(h[1])<0.01;tx(s,x(h[1])+(zero?5:0),up?y-14:y+23,h[0],{"text-anchor":zero?"start":"middle",class:"m"})});});}
+function drawFigs(){figInicio();figFaixas()}
+
+document.querySelector("#t-terc tbody").innerHTML=R.tab_terc.map(t=>`<tr><td>${t.nome}</td><td class="n">${f(t.votos/1e6)} mi</td><td>${t.apoio}</td><td class="n">${f(t.pd[0],0)}%</td><td class="n">${f(t.pd[1],0)}%</td><td class="n">${t.ip?f(t.ip[0],0)+"%":"–"}</td><td class="n">${t.ip?f(t.ip[1],0)+"%":"–"}</td></tr>`).join("");
+document.querySelector("#t-hip tbody").innerHTML=R.hip.map(h=>`<tr><td class="w">${h[0]}</td><td class="n">${f(h[1])}%</td></tr>`).join("");
+$("lula-vot").textContent=f(R.lula_votantes);
+const preset={t:k=>({x:Math.round(100*R.terc[k].x),c:R.terc[k].c}),d:k=>({dl:+(100*R.des[k][0]).toFixed(1),df:+(100*R.des[k][1]).toFixed(1)}),
+ a:k=>({m:Math.round(100*R.aus[k].m),a:Math.round(100*R.aus[k].a)})};
+function setP(g,k){Object.assign(S,preset[g](k));for(const i of ids)if(S[i]!=null)$(i).value=S[i];
+ document.querySelectorAll(`.btns[data-g="${g}"] button`).forEach(b=>b.classList.toggle("on",b.dataset.v===k));calc()}
+// each group's contribution to the margin (Flávio minus Lula), so the calculator can say what a change is worth
+const T0=R.terc.referencia,D0=R.des.simetrico,A0=R.aus["2022"];
+const cT=(c,x)=>R.O*c*(1-2*x), cD=(dl,df)=>R.L1*dl-R.F1*df, cA=(m,a)=>R.A*m*(1-2*a);
+let MM=0;
+const mi=v=>`${f(v)} ${Math.abs(v)<2?"milhão":"milhões"} de votos`;
+function rende(id,delta){if(Math.abs(delta)<0.05){$(id).textContent="";return}
+ const un=v=>Math.abs(v)<2?"milhão":"milhões",tot=MM>0?`fica em ${f(MM)} ${un(MM)}.`:`Lula passa à frente por ${f(-MM)} ${un(MM)}.`;
+ $(id).textContent=`A vantagem de Flávio ${delta>0?"cai":"sobe"} ${f(Math.abs(delta))} ${un(delta)}; `+tot;
+ $(id).style.color=delta>0?"var(--lula)":"var(--flavio)"}
+function calc(){for(const i of ids)S[i]=+$(i).value;
+ const x=S.x/100,dl=S.dl/100,df=S.df/100,m=S.m/100,a=S.a/100,c=S.c;
+ const L2=R.L1*(1-dl)+R.O*c*x+R.A*m*a+R.N*R.bnL,F2=R.F1*(1-df)+R.O*c*(1-x)+R.A*m*(1-a)+R.N*R.bnF;
+ const M=F2-L2,fv=100*F2/(F2+L2);MM=M;
+ $("r-f").textContent=f(fv)+"%";$("r-l").textContent=f(100-fv)+"%";
+ $("b-f").style.width=fv+"%";$("b-l").style.width=(100-fv)+"%";
+ const perto=Math.abs(fv-50)<0.5;
+ $("r-line").innerHTML=(M>0?`<b>Flávio à frente por ${mi(M)}.</b>`:`<b>Lula à frente por ${mi(-M)}.</b>`)+` Média das pesquisas: Flávio ${f(R.agregador)}%.`+(perto?" A diferença é pequena demais para a conta separar os dois.":"");
+ $("o-x").textContent=S.x;$("o-dl").textContent=f(S.dl)+"%";$("o-df").textContent=f(S.df)+"%";$("o-m").textContent=S.m;$("o-a").textContent=S.a;
+ rende("g-x",cT(T0.c,T0.x)-cT(c,x));rende("g-d",cD(D0[0],D0[1])-cD(dl,df));rende("g-a",cA(A0.m,A0.a)-cA(m,a));
+ // tie point of each lever with the others fixed; the margin is linear in each lever
+ if(M>0){
+  const xe=x+M/(2*R.O*c);
+  $("e-x").textContent=xe<=1?`Com o resto como está, o empate viria com ${Math.ceil(100*xe)} em cada 100.`:"";
+  $("e-d").textContent=`Com o resto como está, o empate viria com ${f(Math.ceil(1000*(df+M/R.F1))/10)}% dos eleitores de Flávio sem voltar a votar.`;
+  const ae=m>0?a+M/(2*R.A*m):9;
+  $("e-a").textContent=ae<=1?`Com o resto como está, o empate viria com ${Math.ceil(100*ae)} em cada 100 desses votos para Lula.`:"";
+ }else{for(const e of ["e-x","e-d","e-a"])$(e).textContent=""}
+ for(const g of ["t","d","a"]){const on=document.querySelector(`.btns[data-g="${g}"] button.on`);if(on){const q=preset[g](on.dataset.v);if(Object.keys(q).some(k=>k!=="c"&&Math.abs(q[k]-S[k])>1e-9))on.classList.remove("on")}}
+ try{history.replaceState(null,"","#"+ids.map(i=>i+"="+S[i]).join("&"))}catch(e){}
+}
+document.querySelectorAll(".btns").forEach(b=>b.addEventListener("click",e=>{const v=e.target.closest("button")?.dataset.v;if(v)setP(b.dataset.g,v)}));
+ids.forEach(i=>$(i).addEventListener("input",calc));
+$("b-reset").addEventListener("click",()=>{setP("t","referencia");setP("d","simetrico");setP("a","2022")});
+$("b-copy").addEventListener("click",e=>{const b=e.currentTarget,u=location.href;
+ (navigator.clipboard?navigator.clipboard.writeText(u):Promise.reject()).then(()=>{b.textContent="Link copiado"},()=>{b.textContent="Copie o endereço da página"});
+ setTimeout(()=>{b.textContent="Copiar link desta simulação"},2500)});
+setP("t","referencia");setP("d","simetrico");setP("a","2022");
+(function(){const h=H0;if(!h)return;const q=Object.fromEntries(h.split("&").map(p=>p.split("=")));let any=false;
+ for(const i of ids)if(q[i]!=null&&!isNaN(+q[i])){$(i).value=q[i];any=true}if(any)calc()})();
+</script></body></html>
