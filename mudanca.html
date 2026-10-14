@@ -170,4 +170,5 @@ svg.addEventListener("click",e=>{const c=e.target.dataset&&e.target.dataset.c;if
 const key={};const opts=[];for(const cd in M){const k=`${M[cd][5]} (${M[cd][6]})`;key[k.toLowerCase()]=cd;opts.push(k)}
 opts.sort((a,b)=>a.localeCompare(b,"pt"));$("ml").innerHTML=opts.map(o=>`<option value="${o}">`).join("");
 $("q").addEventListener("input",e=>{const cd=key[e.target.value.toLowerCase()];if(cd)show(cd)});
-</script></body></html>
+</script><!-- contador --><script data-goatcounter="https://eleicoes2026.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</body></html>

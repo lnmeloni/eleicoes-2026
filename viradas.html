@@ -337,4 +337,5 @@ function draw(){const only=document.getElementById("f5").checked;
  document.querySelector("#tb tbody").innerHTML=rows.map(d=>`<tr><td>${d.ano}</td><td>${d.uf==="BR"?"Presidente":d.uf}</td><td class="nm">${d.lider} <span class="pt">${d.lider_partido}</span></td><td class="nm">${d.segundo} <span class="pt">${d.segundo_partido}</span></td><td>${f(d.p1_lider)}</td><td>${f(d.p1_segundo)}</td><td>${f(d.p1_outros)}</td><td>${f(d.margem1)}</td><td class="${d.virou?"vir":""}">${f(d.p2_lider)}${d.ext?"*":""}</td><td>${f(d.ganho)}</td></tr>`).join("")}
 document.querySelectorAll("#tb th[data-k]").forEach(th=>th.onclick=()=>{asc=key===th.dataset.k?!asc:true;key=th.dataset.k;draw()});
 document.getElementById("f5").onchange=draw;draw();
-</script></body></html>
+</script><!-- contador --><script data-goatcounter="https://eleicoes2026.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</body></html>
