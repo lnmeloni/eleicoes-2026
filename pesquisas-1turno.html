@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>As pesquisas e o resultado do 1º turno</title>
+<meta name="description" content="A última pesquisa de oito institutos antes do 1º turno de 2026, comparada com o resultado oficial para presidente.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Sans:wght@400;600&display=swap">
+<style>
+/* Same visual family as contas.html and agregador.html */
+:root{color-scheme:light;--bg:#fcfcfb;--panel:#f3f2ef;--fg:#141413;--fg-2:#52514e;--muted:#8a8984;--rule:#e2e1dc;--grid:#ebeae6;
+--lula:#e34948;--flavio:#2a78d6;--s0:#a9a8a1;
+--serif:"Source Serif 4",Georgia,"Times New Roman",serif;--sans:"IBM Plex Sans",-apple-system,"Segoe UI",sans-serif}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#1a1a19;--panel:#242422;--fg:#f4f3ee;
+--fg-2:#c3c2b7;--muted:#8f8e86;--rule:#35342f;--grid:#2b2b28;--lula:#e66767;--flavio:#3987e5;--s0:#6e6d66}}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#1a1a19;--panel:#242422;--fg:#f4f3ee;--fg-2:#c3c2b7;--muted:#8f8e86;
+--rule:#35342f;--grid:#2b2b28;--lula:#e66767;--flavio:#3987e5;--s0:#6e6d66}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:18px/1.6 var(--serif)}
+main{max-width:760px;margin:0 auto;padding-inline:16px;padding-block:40px 80px}
+.kicker{font:600 12px/1.4 var(--sans);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+h1{font:600 34px/1.2 var(--serif);margin:6px 0 14px}
+.dek{font:21px/1.35 var(--serif);font-style:italic;color:var(--fg-2);margin:0 0 18px}
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:0 0 18px}
+.tile{background:var(--panel);border-radius:10px;padding:12px 14px;border-top:3px solid var(--c)}
+.tile .k{font:600 12px/1.4 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.tile .v{font:600 28px/1.1 var(--sans);font-variant-numeric:tabular-nums;color:var(--c)}
+.tile.of .v{color:var(--fg)}
+.tile .l{font:13.5px/1.4 var(--sans);color:var(--fg-2);margin-top:4px}
+.fig{margin:12px 0 4px}
+.fig svg{display:block;width:100%;overflow:visible}
+.fig text{font-family:var(--sans);font-size:12px;fill:var(--fg-2)}
+.fig text.b{fill:var(--fg);font-weight:600}
+.fig .m{fill:var(--muted);font-size:11px;font-weight:400}
+h2{font:600 22px/1.3 var(--serif);margin:44px 0 10px}
+p{margin:0 0 14px}
+sup a{color:var(--fg-2);text-decoration:none;font:600 12px var(--sans)}
+.note{font:12.5px/1.5 var(--sans);color:var(--muted)}
+.note a,details a,p a{color:var(--fg-2)}
+nav.top{font:13px/1.4 var(--sans);margin:0 0 14px}
+nav.top a,footer a{color:var(--fg-2);text-decoration:none;border-bottom:1px solid var(--rule)}
+.tw{overflow-x:auto;margin:10px 0 6px;
+background:linear-gradient(to right,var(--bg) 30%,transparent),linear-gradient(to left,var(--bg) 30%,transparent) 100% 0,
+radial-gradient(farthest-side at 0 50%,rgba(0,0,0,.18),transparent),radial-gradient(farthest-side at 100% 50%,rgba(0,0,0,.18),transparent) 100% 0;
+background-repeat:no-repeat;background-size:40px 100%,40px 100%,14px 100%,14px 100%;background-attachment:local,local,scroll,scroll}
+.rola{font:12px/1.4 var(--sans);color:var(--muted);margin:8px 0 0}
+th.grp{text-align:center;border-bottom:1px solid var(--fg-2);color:var(--fg)}
+td.g,th.g{border-left:1px solid var(--rule)}
+td a,ol.notas a,p a{color:var(--fg-2);text-decoration:underline;text-decoration-color:var(--rule);text-underline-offset:2px;text-decoration-thickness:1px}
+table{border-collapse:collapse;font:13.5px/1.45 var(--sans);font-variant-numeric:tabular-nums;width:100%}
+th,td{padding:7px 8px;border-bottom:1px solid var(--rule);text-align:left;vertical-align:top}
+th{font-weight:600;color:var(--fg-2);font-size:12.5px;vertical-align:bottom}
+td.n,th.n{text-align:right;white-space:nowrap}
+td .tag{display:block;font-size:12px;color:var(--muted);min-width:150px}
+details{font:14px/1.5 var(--sans);color:var(--fg-2);margin:12px 0 0}
+details summary{cursor:pointer}
+details p{font-size:14px}
+.notes{margin-top:44px;padding-top:12px;border-top:1px solid var(--rule)}
+.notes h3{font:600 13px/1.4 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0}
+ol.notas{font:13px/1.55 var(--sans);color:var(--fg-2);padding-left:20px;margin:8px 0 0}
+ol.notas li{margin:0 0 8px}
+footer{margin-top:56px;padding-top:14px;border-top:1px solid var(--rule);font:13px/1.55 var(--sans);color:var(--muted)}
+footer p{margin:0 0 8px}
+@media (max-width:560px){body{font-size:17px}h1{font-size:28px}.tiles{grid-template-columns:1fr}.tile .v{font-size:26px}}
+</style></head><body><main>
+<nav class="top"><a href="index.html">← Eleições 2026</a> · <a href="agregador.html">Agregador de pesquisas</a> · <a href="contas.html">As contas do 2º turno</a></nav>
+<div class="kicker">Eleição presidencial de 2026 · 1º turno</div>
+<h1>As pesquisas e o resultado do 1º turno</h1>
+<p class="dek">A última pesquisa de oito institutos antes de 04/10, comparada com o resultado oficial para presidente.<sup><a href="#n1">1</a></sup></p>
+
+<div class="tiles">
+<div class="tile of" style="--c:var(--s0)"><div class="k">Nas urnas</div><div class="v">Flávio +1,9</div><div class="l">47,03% contra 45,16% dos votos válidos</div></div>
+<div class="tile" style="--c:var(--flavio)"><div class="k">Flávio nas pesquisas</div><div class="v">43,0%</div><div class="l">em média, 4,0 pontos abaixo dos 47,0% das urnas</div></div>
+<div class="tile" style="--c:var(--lula)"><div class="k">Lula nas pesquisas</div><div class="v">45,6%</div><div class="l">em média, 0,4 ponto acima dos 45,2% das urnas</div></div>
+</div>
+
+<p>Sete dos oito institutos tinham Lula à frente na última pesquisa. A GERP tinha Flávio 2 pontos à frente, perto do resultado. Nos outros sete, a diferença entre os dois ficou de 2,9 a 7,6 pontos mais favorável a Lula do que nas urnas.</p>
+<p>Quase todo esse erro está nos votos de Flávio, que teve de 1,0 a 6,5 pontos a mais nas urnas do que nas pesquisas. Os de Lula ficaram entre 1,3 ponto a menos e 2,6 pontos a mais que nas urnas.<sup><a href="#n2">2</a></sup></p>
+
+<h2>Diferença entre Flávio e Lula, pesquisa por pesquisa</h2>
+<div class="fig" id="f-dif"></div>
+<p class="note">O ponto é a diferença na última pesquisa de cada instituto. A linha horizontal é a margem de erro dessa diferença, que é cerca do dobro da margem divulgada.<sup><a href="#n3">3</a></sup> A linha vertical é o resultado das urnas.</p>
+
+<details><summary>Tabela completa, com a margem de erro de cada pesquisa</summary>
+<p class="rola">A tabela tem onze colunas; arraste para o lado para ver todas.</p>
+<div class="tw"><table>
+<thead><tr><th rowspan="2">Instituto</th><th class="grp g" colspan="3">Flávio</th><th class="grp g" colspan="3">Lula</th><th class="grp g" colspan="3">Diferença</th><th class="n g" rowspan="2">Margem divulgada</th></tr>
+<tr><th class="n g">Pesquisa</th><th class="n">Erro</th><th>Na margem?</th><th class="n g">Pesquisa</th><th class="n">Erro</th><th>Na margem?</th><th class="n g">Pesquisa</th><th class="n">Erro</th><th>Na margem?</th></tr></thead>
+<tbody><tr><td><a href="https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/um-de-seis-institutos-de-pesquisa-apontava-flavio-numericamente-a-frente-de-lula/">AtlasIntel</a><span class="tag">27/09 a 02/10 · 4.945 entrevistas · questionário web</span></td><td class="n g">44,1%</td><td class="n">2,9 abaixo</td><td>fora*</td><td class="n g">47,0%</td><td class="n">1,8 acima</td><td>fora*</td><td class="n g">Lula +2,9</td><td class="n">Lula +4,8</td><td>fora*</td><td class="n g">±1,0</td></tr><tr><td><a href="https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/um-de-seis-institutos-de-pesquisa-apontava-flavio-numericamente-a-frente-de-lula/">CNT/MDA</a><span class="tag">29/09 a 02/10 · 2.002 entrevistas · presencial</span></td><td class="n g">42,1%</td><td class="n">4,9 abaixo</td><td>fora</td><td class="n g">47,8%</td><td class="n">2,6 acima</td><td>fora</td><td class="n g">Lula +5,7</td><td class="n">Lula +7,6</td><td>fora</td><td class="n g">±2,2</td></tr><tr><td><a href="https://media.folha.uol.com.br/datafolha/2026/10/05/clhx3ko6h42kpfw2vumafq-v2.pdf">Datafolha</a><span class="tag">03/10 · 4.006 entrevistas · presencial em pontos de fluxo</span></td><td class="n g">42,0%</td><td class="n">5,0 abaixo</td><td>fora</td><td class="n g">45,0%</td><td class="n">0,2 abaixo</td><td>dentro</td><td class="n g">Lula +3,0</td><td class="n">Lula +4,9</td><td>fora</td><td class="n g">±2,0</td></tr><tr><td><a href="https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/um-de-seis-institutos-de-pesquisa-apontava-flavio-numericamente-a-frente-de-lula/">GERP</a><span class="tag">30/09 a 02/10 · 2.400 entrevistas · cotas</span></td><td class="n g">46,0%</td><td class="n">1,0 abaixo</td><td>dentro*</td><td class="n g">44,0%</td><td class="n">1,2 abaixo</td><td>dentro*</td><td class="n g">Flávio +2,0</td><td class="n">Flávio +0,1</td><td>dentro*</td><td class="n g">±2,04</td></tr><tr><td><a href="https://static.poder360.com.br/uploads/2026/10/Pesquisa-Franca_Brasil_Presidente_1o-turno.pdf">Instituto França</a><span class="tag">28/09 a 02/10 · 2.000 entrevistas · telefone</span></td><td class="n g">40,5%</td><td class="n">6,5 abaixo</td><td>fora</td><td class="n g">43,9%</td><td class="n">1,3 abaixo</td><td>dentro</td><td class="n g">Lula +3,4</td><td class="n">Lula +5,2</td><td>fora</td><td class="n g">±2,2</td></tr><tr><td><a href="https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/um-de-seis-institutos-de-pesquisa-apontava-flavio-numericamente-a-frente-de-lula/">PoderData</a><span class="tag">30/09 a 02/10 · 4.000 entrevistas · telefone automático (URA)</span></td><td class="n g">43,0%</td><td class="n">4,0 abaixo</td><td>fora</td><td class="n g">45,0%</td><td class="n">0,2 abaixo</td><td>dentro</td><td class="n g">Lula +2,0</td><td class="n">Lula +3,9</td><td>no limite</td><td class="n g">±2,0</td></tr><tr><td><a href="https://www.brasildefato.com.br/2026/10/03/lula-tem-46-e-flavio-bolsonaro-45-dos-votos-validos-aponta-quaest/">Quaest</a><span class="tag">02/10 a 03/10 · 3.702 entrevistas · presencial domiciliar</span></td><td class="n g">45,0%</td><td class="n">2,0 abaixo</td><td>no limite</td><td class="n g">46,0%</td><td class="n">0,8 acima</td><td>dentro</td><td class="n g">Lula +1,0</td><td class="n">Lula +2,9</td><td>dentro</td><td class="n g">±2,0</td></tr><tr><td><a href="https://jornalgrandebahia.com.br/2026/10/pesquisas-presidenciais-entram-na-reta-final-das-eleicoes-2026-com-novas-rodadas-ate-sabado-veja-resultados-desde-23-de-setembro-e-registros-no-tse/">Real Time Big Data</a><span class="tag">26/09 a 30/09 · 2.000 entrevistas · telefone e digital</span></td><td class="n g">41,0%</td><td class="n">6,0 abaixo</td><td>fora</td><td class="n g">46,0%</td><td class="n">0,8 acima</td><td>dentro</td><td class="n g">Lula +5,0</td><td class="n">Lula +6,9</td><td>fora</td><td class="n g">±2,0</td></tr></tbody></table></div>
+<p>Porcentagens dos votos válidos. O erro diz quanto a pesquisa ficou acima ou abaixo das urnas (Flávio 47,03%, Lula 45,16%, Flávio +1,9). Na diferença, "Lula +4,8" quer dizer que a pesquisa foi 4,8 pontos mais favorável a Lula do que o resultado. "Na margem?" compara o erro com a margem divulgada, para cada candidato, e com cerca do dobro dela, para a diferença.<sup><a href="#n3">3</a></sup> A margem é a que consta do registro de cada pesquisa no TSE. * Amostra por cotas ou pela internet, para a qual a margem de erro é só uma referência.</p>
+</details>
+
+<h2>O que isso muda no agregador do 2º turno</h2>
+<p>O <a href="agregador.html">agregador de pesquisas</a> corrige cada instituto pela distância em relação aos outros institutos, e não em relação ao resultado. A ideia é tirar da média o jeito próprio de cada um medir, sem supor que o erro do 1º turno vai se repetir. Por isso a GERP, que ficou perto do resultado e longe dos outros, é a mais corrigida: entrou com 1,2 ponto a menos para Flávio, e com as pesquisas de 2º turno essa correção passou para 1,8 ponto. Institutos que ficaram perto da média dos outros quase não são corrigidos.<sup><a href="#n4">4</a></sup></p>
+<p>O erro que foi comum a quase todos fica fora da média do agregador, que hoje dá 51,5% dos válidos para Flávio e 48,5% para Lula. A página do agregador mostra à parte, como cenário, o que aconteceria se esse erro se repetisse.</p>
+<details><summary>Ajuste de cada instituto no agregador</summary>
+<div class="tw"><table>
+<thead><tr><th>Instituto</th><th class="n">Correção inicial para Flávio</th><th class="n">Correção em 14/10</th><th>Pesquisas de 2º turno</th></tr></thead>
+<tbody><tr><td>AtlasIntel</td><td class="n">0,1 a mais</td><td class="n">0,5 a menos</td><td>1 pesquisa</td></tr><tr><td>CNT/MDA</td><td class="n">0,8 a mais</td><td class="n">não se aplica</td><td>sem pesquisa de 2º turno no agregador</td></tr><tr><td>Datafolha</td><td class="n">0,1 a mais</td><td class="n">0,0</td><td>1 pesquisa</td></tr><tr><td>GERP</td><td class="n">1,2 a menos</td><td class="n">1,8 a menos</td><td>1 pesquisa</td></tr><tr><td>Instituto França</td><td class="n">0,2 a mais</td><td class="n">não se aplica</td><td>sem pesquisa de 2º turno no agregador</td></tr><tr><td>PoderData</td><td class="n">0,2 a menos</td><td class="n">não se aplica</td><td>recalculada com o voto real do 1º turno, sem correção</td></tr><tr><td>Quaest</td><td class="n">0,4 a menos</td><td class="n">não se aplica</td><td>sem pesquisa de 2º turno no agregador</td></tr><tr><td>Real Time Big Data</td><td class="n">0,6 a mais</td><td class="n">não se aplica</td><td>sem pesquisa de 2º turno no agregador</td></tr></tbody></table></div>
+<p>Pontos a mais ou a menos na porcentagem de Flávio nos votos válidos, aplicados ao número que o instituto publicou. As correções são cálculo do agregador, não dos institutos. Quando o instituto divulga o 2º turno separado pelo voto de cada eleitor no 1º turno, o agregador recalcula o número com o resultado real do 1º turno e não aplica correção de instituto; é o caso do PoderData.</p>
+</details>
+
+<section class="notes"><h3>Notas</h3>
+<ol class="notas">
+<li id="n1">Para cada instituto, a última pesquisa nacional de 1º turno para presidente divulgada antes da eleição e registrada no TSE, como reunida pela <a href="https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/um-de-seis-institutos-de-pesquisa-apontava-flavio-numericamente-a-frente-de-lula/">Gazeta do Povo</a> em 05/10 (seis institutos), mais a Real Time Big Data e o Instituto França (relatório publicado pelo Poder360), de outras fontes. Todas foram divulgadas entre 01/10 e 03/10. Ficaram de fora a Futura/100% Cidades e a Vox Brasil, porque não achei os números em votos válidos nem os dos outros candidatos para calculá-los, e a Indexa, com campo encerrado em 29/09. O registro do TSE tem ainda uma pesquisa nacional da GERP com campo de 01/10 a 03/10 e uma da Real Time Big Data de 28/09 a 02/10 cujos resultados não encontrei publicados. Que os números são de votos válidos foi conferido nos relatórios de Datafolha, Quaest e Real Time Big Data e nas reportagens sobre <a href="https://www.cnnbrasil.com.br/eleicoes/gerp-flavio-tem-46-dos-votos-validos-no-1o-turno-lula-44/">GERP</a> · <a href="https://www.poder360.com.br/poderdata/na-vespera-do-1o-turno-lula-tem-45-e-flavio-43-dos-votos-validos/">PoderData</a> · <a href="https://www.cnnbrasil.com.br/eleicoes/atlas-lula-tem-47-dos-votos-validos-no-1o-turno-flavio-441/">AtlasIntel</a> · <a href="https://www.cnnbrasil.com.br/eleicoes/cnt-mda-lula-tem-478-dos-votos-validos-no-1o-turno-flavio-421/">CNT/MDA</a>. Resultado oficial do TSE, totais finais; somando os boletins de seção dá 47,026% e 45,161%.</li>
+<li id="n2">Pesquisa não é previsão. Ela mede a intenção de voto nos dias do campo, e o voto pode mudar até o dia da eleição. Os campos terminaram entre 30/09 e 03/10. Os outros candidatos somaram 7,8% dos válidos nas urnas e, nas pesquisas, entre 8,9% e 15,6%; parte do erro nos votos de Flávio pode vir de eleitores desses candidatos que mudaram o voto no fim, mas os dados das pesquisas não permitem separar isso de erro de amostra ou de ponderação.</li>
+<li id="n3">A margem de erro divulgada vale para a porcentagem de cada candidato. A diferença entre dois candidatos da mesma pesquisa tem margem maior, perto de 1,9 vez a divulgada quando os dois somam cerca de 90% dos votos, porque o que um ganha costuma sair do outro. A margem declarada supõe uma amostra sorteada ao acaso e é calculada sobre o total de entrevistas; nos votos válidos a base é menor e a margem fica um pouco maior. Em amostras por cotas ou pela internet (2 das sete, marcadas com * na tabela), a margem de erro é só uma referência. Nas pesquisas que publicam números inteiros, chamei de "no limite" quando o erro fica a menos de 0,5 ponto da margem, que é o tamanho do arredondamento. Com esses critérios, na diferença o erro ficou dentro da margem em 2 pesquisas, no limite em 1 e fora em 5; nos votos de Flávio, fora em 6; nos de Lula, fora em 2. A GERP declara confiança de 95,55%; as demais, 95%.</li>
+<li id="n4">A correção de partida de cada instituto é metade da distância entre o erro dele e o erro médio dos oito, convertida da diferença entre os candidatos para a porcentagem de Flávio (dividida por 2). As pesquisas de 2º turno vão atualizando a correção; a da tabela é a estimativa em 14/10. O erro comum aparece aqui como 2,2 pontos na porcentagem de Flávio, metade do erro médio de 4,5 pontos na diferença, porque numa disputa de dois o que um perde o outro ganha. O cartão do topo mostra 4,0 porque mede só Flávio, com todos os candidatos na conta. Se o erro comum se repetisse, a média de hoje passaria a 53,8%. Detalhes na página do <a href="agregador.html">agregador</a>.</li>
+</ol></section>
+
+<footer><p class="nav"><a href="index.html">Início</a> · <a href="agregador.html">Agregador de pesquisas</a> · <a href="contas.html">As contas do 2º turno</a> · <a href="painel.html">Painel da apuração</a> · <a href="viradas.html">Viradas no 2º turno</a></p>
+<p>Desenvolvido por Luis Meloni, com auxílio do Claude Code na implementação. As escolhas metodológicas, dados e conteúdo são de responsabilidade do autor; eventuais erros ou imprecisões são de minha responsabilidade.</p>
+<p>Dados do Tribunal Superior Eleitoral (resultado do 1º turno de 2026 e registro das pesquisas) e das pesquisas GERP, Quaest, PoderData, AtlasIntel, Datafolha, Real Time Big Data e CNT/MDA. Versão de 14/10/2026.</p></footer>
+</main>
+<script>
+const R={"of": 1.87, "rows": [{"inst": "AtlasIntel", "m": -2.9, "md": 1.91}, {"inst": "CNT/MDA", "m": -5.7, "md": 4.16}, {"inst": "Datafolha", "m": -3.0, "md": 3.73}, {"inst": "GERP", "m": 2.0, "md": 3.87}, {"inst": "Instituto França", "m": -3.38, "md": 4.04}, {"inst": "PoderData", "m": -2.0, "md": 3.75}, {"inst": "Quaest", "m": -1.0, "md": 3.82}, {"inst": "Real Time Big Data", "m": -5.0, "md": 3.73}]};
+const f=(x,d=1)=>(+x).toFixed(d).replace(".",",").replace("-","−");
+const NS="http://www.w3.org/2000/svg",css=v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+const el=(t,a,p)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);p&&p.appendChild(e);return e};
+const tx=(p,x,y,s,a={})=>{const e=el("text",Object.assign({x,y},a),p);e.textContent=s;return e};
+const lab=m=>Math.abs(m)<0.05?"empate":(m>0?"Flávio +":"Lula +")+f(Math.abs(m));
+function draw(){const b=document.getElementById("f-dif");b.innerHTML="";const W=b.clientWidth,mob=W<560;
+ const rows=R.rows,rh=mob?50:36,top=40,H=top+rows.length*rh+46,l=mob?6:170,r=10;
+ const s=el("svg",{viewBox:`0 0 ${W} ${H}`,height:H},b);
+ const lo=Math.floor(Math.min(...rows.map(d=>d.m-d.md))-0.5),hi=Math.ceil(Math.max(R.of,...rows.map(d=>d.m+d.md))+0.5);
+ const x=v=>l+(v-lo)/(hi-lo)*(W-l-r),yb=top+rows.length*rh;
+ const step=(hi-lo)>12?4:2;
+ for(let v=Math.ceil(lo/step)*step;v<=hi;v+=step){el("line",{x1:x(v),x2:x(v),y1:top-4,y2:yb,stroke:css("--grid")},s);
+  tx(s,x(v),yb+14,v===0?"empate":Math.abs(v)+(v===Math.ceil(lo/step)*step?" pontos":""),{"text-anchor":v===Math.ceil(lo/step)*step?"start":"middle",class:"m"})}
+ el("line",{x1:x(0),x2:x(0),y1:top-4,y2:yb,stroke:css("--s0"),"stroke-dasharray":"3 3"},s);
+ el("line",{x1:x(R.of),x2:x(R.of),y1:top-10,y2:yb,stroke:css("--fg"),"stroke-width":1.5},s);
+ el("line",{x1:x(R.of),x2:x(R.of),y1:top-24,y2:top-10,stroke:css("--fg"),"stroke-width":1.5},s);
+ tx(s,x(R.of)+(mob?-5:5),top-26,"Urnas: Flávio +"+f(R.of),{class:"b","text-anchor":mob?"end":"start"});
+ tx(s,x(0)-6,yb+32,"← Lula à frente",{"text-anchor":"end"}).style.fill=css("--lula");
+ tx(s,x(0)+6,yb+32,"Flávio à frente →",{}).style.fill=css("--flavio");
+ rows.forEach((d,i)=>{const y=top+i*rh+(mob?32:rh/2);
+  if(mob){const t=tx(s,l,y-14,d.inst,{class:"b"});const u=el("tspan",{class:"m",dx:6},t);u.textContent=lab(d.m)}
+  else{tx(s,l-14,y-2,d.inst,{"text-anchor":"end",class:"b"});tx(s,l-14,y+11,lab(d.m),{"text-anchor":"end",class:"m"})}
+  el("line",{x1:x(d.m-d.md),x2:x(d.m+d.md),y1:y,y2:y,stroke:css("--s0"),"stroke-width":3,"stroke-linecap":"round"},s);
+  el("circle",{cx:x(d.m),cy:y,r:5.5,fill:css("--fg"),stroke:css("--bg"),"stroke-width":1.5},s)});}
+draw();let t;addEventListener("resize",()=>{clearTimeout(t);t=setTimeout(draw,120)});
+matchMedia("(prefers-color-scheme: dark)").addEventListener?.("change",draw);
+</script></body></html>
